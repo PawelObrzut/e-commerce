@@ -1,14 +1,14 @@
 import GlobalStyles from './styles/GlobalStyles';
 import NavBar from "./components/Header"
+import TopBar from './components/TopBar';
 
 function App() {
 
   return (
     <>
       <GlobalStyles />
-      <NavBar>
-        
-      </NavBar>
+      <TopBar />
+      <NavBar />
     </>
   )
 }
