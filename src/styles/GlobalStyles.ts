@@ -18,7 +18,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    font-family: "Bebas Neue", sans-serif;
+    "Roboto", sans-serif;
     font-weight: 400;
     font-style: normal;
   }
