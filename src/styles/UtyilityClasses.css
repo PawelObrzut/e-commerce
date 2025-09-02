@@ -3,53 +3,11 @@
   grid-template-columns: repeat(12,minmax(0,1fr));
 }
 
-.display--sm__off {
-  display: none;
-}
-
 .flex-container {
   display: flex;
   align-items: center;
 }
 
-
-
 .float-right {
   float: right;
-}
-
-.nav-icon {
-  position: relative;
-  display: inline-grid;
-  place-items: center;
-  aspect-ratio: 1;
-  width: 40px;
-  height: auto;
-  border-radius: 50%;
-  text-decoration: none;
-  overflow: hidden;
-  vertical-align: middle;
-}
-
-.nav-icon svg {
-  width: 70%;
-  height: 70%;
-  display: block;
-}
-
-.nav-icon::before {
-  content: '';
-  opacity: 0;
-  background: var(--grey-light);
-  border-radius: 50%;
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  transition: opacity 250ms linear;
-}
-
-
-.nav-icon:hover::before,
-.nav-icon:focus::before {
-  opacity: 1;
 }

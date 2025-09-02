@@ -1,4 +1,7 @@
 import styled from 'styled-components'
+import PrimaryMenu from './PrimaryMenu'
+import NavIcon from './NavIcon'
+import { BasketIcon, HamburgerMenuIcon, UserIcon, SearchIcon, FavouritesIcon } from './SvgIcons'
 
 const HeaderWrapper = styled.div`
   color: var(--black-primary);
@@ -15,10 +18,6 @@ const Header = styled.header`
 
 const LogoContainer = styled.div`
   grid-column: span 5;
-`
-
-const PrimaryMenuContainer = styled.div`
-  grid-column: span 1;
 `
 
 const SecondaryMenuContainer = styled.div`
@@ -46,7 +45,6 @@ const SwooshContainer = styled.div`
 
 const InputBarContainer = styled.div`
   grid-column: 2;
-
 `
 
 const SeatchInputContainer = styled.div`
@@ -57,17 +55,9 @@ const SeatchInputContainer = styled.div`
 `
 
 const SearchIconContainer = styled.div`
-  margin: 0;
-  padding: 0;
-
-`
-
-const SearchIcon = styled.button`
   border: 0;
   display: flex;
   position: relative;
-  width: 36px;
-  padding: 6px;
   overflow-y: hidden;
 `
 
@@ -106,15 +96,7 @@ const NavBar = () => {
             <a href="">logo</a>
           </LogoContainer>
 
-          <PrimaryMenuContainer className='nav--grid__item'>
-            <nav className='display--sm__off'>
-              <ul>
-                <li></li>
-                <li></li>
-                <li></li>
-              </ul>
-            </nav>
-          </PrimaryMenuContainer>
+          <PrimaryMenu />
 
           <SecondaryMenuContainer className='nav--grid__item'>
             <UserToolsContainer>
@@ -125,9 +107,7 @@ const NavBar = () => {
                     <InputBarContainer>
                       <SeatchInputContainer>
                         <SearchIconContainer>
-                          <SearchIcon>
-                            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none"><path stroke="currentColor" stroke-width="1.5" d="M13.962 16.296a6.716 6.716 0 01-3.462.954 6.728 6.728 0 01-4.773-1.977A6.728 6.728 0 013.75 10.5c0-1.864.755-3.551 1.977-4.773A6.728 6.728 0 0110.5 3.75c1.864 0 3.551.755 4.773 1.977A6.728 6.728 0 0117.25 10.5a6.726 6.726 0 01-.921 3.407c-.517.882-.434 1.988.289 2.711l3.853 3.853"></path></svg>
-                          </SearchIcon>
+                          <NavIcon icon={SearchIcon} aria-label="Login" type="button" />
                         </SearchIconContainer>
 
                       </SeatchInputContainer>
@@ -142,25 +122,12 @@ const NavBar = () => {
                 </form>
               </search>
 
-
-              <button className='nav-icon' aria-label="Zaloguj się">
-                <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none"><path stroke="currentColor" stroke-width="1.5" d="M3.75 21v-3a3.75 3.75 0 013.75-3.75h9A3.75 3.75 0 0120.25 18v3M12 3.75a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5z"></path></svg>
-              </button>
-
-
+              <NavIcon icon={UserIcon} aria-label="Login" type="button" />
+              <NavIcon  as="a" icon={FavouritesIcon} aria-label="Favourites" hideOnMobile />
               <a aria-label="Ulubione" href='' className='display--sm__off'></a>
+              <NavIcon as="a" href="/basket" icon={BasketIcon} aria-label="Basket" />
+              <NavIcon icon={HamburgerMenuIcon} aria-label="Menu" type="button" />
 
-              <a className='nav-icon' aria-label="Przedmioty w koszyku" href="">
-                <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none">
-                  <path stroke="currentColor" stroke-width="1.5" d="M8.25 8.25V6a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 110 4.5H3.75v8.25a3.75 3.75 0 003.75 3.75h9a3.75 3.75 0 003.75-3.75V8.25H17.5"></path>
-                </svg>
-              </a>
-
-              <button className='nav-icon' aria-label="menu">
-                <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none">
-                  <path stroke="currentColor" stroke-width="1.5" d="M21 5.25H3M21 12H3m18 6.75H3"></path>
-                </svg>
-              </button>
 
             </UserToolsContainer>
           </SecondaryMenuContainer>
