@@ -4,7 +4,9 @@ const GlobalStyles = createGlobalStyle`
 :root {
     --black-primary: hsl(0, 0%, 0%);
     --grey-secondary: hsl(0, 0%, 50%);
-    --grey-light: hsl(0, 0%, 75%);
+    --grey-light: hsl(0, 0.00%, 85.00%);
+    --grey-light-2: hsl(0, 0.00%, 95.00%);
+    --grey-strong: hsl(0, 0%, 75%);
     --white-primary: hsl(0, 100%, 100%);
     --fs-400: 1rem;
   }

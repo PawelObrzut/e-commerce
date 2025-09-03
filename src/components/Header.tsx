@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import styled from 'styled-components'
 import PrimaryMenu from './PrimaryMenu'
 import NavIcon from './NavIcon'
@@ -7,7 +8,7 @@ const HeaderWrapper = styled.div`
   color: var(--black-primary);
   font-size: 2rem;
   padding: 0.5rem 2.5rem;
-  marginn: auto;
+  margin: auto;
 `
 
 const Header = styled.header`
@@ -32,8 +33,13 @@ const UserToolsContainer = styled.div`
 
 const SearchBarContainer = styled.div`
   display: grid;
+  grid-template-columns: 0 36px 0;
   justify-content: end;
   align-items: center;
+
+  @media (min-width: 1200px) {
+    grid-template-columns: 0 180px 0;
+  }
 `
 
 const SwooshContainer = styled.div`
@@ -45,13 +51,26 @@ const SwooshContainer = styled.div`
 
 const InputBarContainer = styled.div`
   grid-column: 2;
+  margin: 0;
+  padding: 0;
+  border: 0;
 `
 
-const SeatchInputContainer = styled.div`
+const SearchInputContainer = styled.div`
   display: flex;
-  gap: 0.75rem;
+  width: 180px;
   vertical-align: baseline;
   transition: width 400ms cubic-bezier(0.6, 0, 0.1, 1);
+  border-radius: 2rem;
+
+  &:has(input:hover) {
+    background-color: var(--grey-light);
+  }
+
+  @media (min-width: 1200px) {
+    background-color: var(--grey-light-2);
+    transition: width 400ms cubic-bezier(0.6, 0, 0.1, 1);
+  }
 `
 
 const SearchIconContainer = styled.div`
@@ -59,35 +78,53 @@ const SearchIconContainer = styled.div`
   display: flex;
   position: relative;
   overflow-y: hidden;
+  z-index: 5;
 `
 
-const CancelSearchContainer = styled.div`
-  opacity: 0;
-  visibility: hidden;
+const SearchInput = styled.input<{ $isOpen: boolean}>`
+  visibility: ${({ $isOpen }) => ( $isOpen ? "visible": "hidden")};
+  border-radius: 2rem;
+  width: 0;
+  padding: 0;
+  cursor: text;
+  font-size: 1rem;
+  outline: none;
+
+  &:hover {
+    background-color: var(--grey-light);
+  }
+  
+  @media (min-width: 1200px) {
+    visibility: visible;
+    width: 100%;
+    margin: 0;
+    padding: 10px 0px 9px 12px;
+  }
+`
+
+const CancelSearchContainer = styled.div<{ $isOpen: boolean }>`
+  opacity: ${({ $isOpen }) => ( $isOpen ? 1 : 0 )};
+  visibility: ${({ $isOpen }) => ( $isOpen ? "visible": "hidden")};
   height: 0;
 `
 
-const SearchResultsContainer = styled.div`
+const SearchResultsContainer = styled.div<{ $isOpen: boolean }>`
   position: absolute;
-  background: var(--white-primary);
-  opacity: 0;
-  visibility: hidden;
+  background-color: var(--white-primary);
+  opacity: ${({ $isOpen }) => ( $isOpen ? 1 : 0 )};
+  visibility: ${({ $isOpen }) => ( $isOpen ? "visible": "hidden")};
   transition: opacity 250ms cubic-bezier(0.6, 0, 0.1, 1);
-`
-
-const SearchScrim = styled.div`
-  opacity: 0;
-  z-index: 1;
-  visibility: hidden;
-  display: block;
-  position: fixed;
+  width: 100%;
+  min-height: 80vh;
   top: 0;
-  bottom: 0;
-  left: 0;
   right: 0;
+  z-index: 10;
+  border: solid 1px red;
 `
 
 const NavBar = () => {
+  const [searchOpen, setSearchOpen] = useState(false);
+
   return (
     <HeaderWrapper>
       <nav aria-label='Navigation panel'>
@@ -104,30 +141,62 @@ const NavBar = () => {
                 <form>
                   <SearchBarContainer>
                     <SwooshContainer></SwooshContainer>
+                    
                     <InputBarContainer>
-                      <SeatchInputContainer>
+                      <SearchInputContainer>
                         <SearchIconContainer>
-                          <NavIcon icon={SearchIcon} aria-label="Login" type="button" />
+                          <NavIcon 
+                            onClick={() => setSearchOpen(true)}
+                            icon={SearchIcon} 
+                            aria-label="Search" 
+                            type="button" />
                         </SearchIconContainer>
 
-                      </SeatchInputContainer>
+                        <SearchInput 
+                          $isOpen={searchOpen}
+                          type="search"
+                          value=""
+                          placeholder='Search...'
+                          autoComplete='off'
+                          aria-label='Search for items'
+                          inputMode='search'
+                          aria-required="true"
+                        />
+
+                      </SearchInputContainer>
                       <div className='cancel-container'>
 
                       </div>
                     </InputBarContainer>
-                    <CancelSearchContainer><button>Anuluj</button></CancelSearchContainer>
-                    <SearchResultsContainer></SearchResultsContainer>
-                    <SearchScrim />
+
+                    <CancelSearchContainer $isOpen={searchOpen} >
+                      <button onClick={() => setSearchOpen(false)} type="submit" >Anuluj</button>
+                    </CancelSearchContainer>
+
+                    <SearchResultsContainer $isOpen={searchOpen} >
+                      <div>
+                        <section>
+                          <div>
+                            <p>Popular search terms</p>
+                            <div>
+                              {/* <a href="">model x1</a>
+                              <a href="">shoes</a>
+                              <a href="">fashion in Stockholm</a>
+                              <a href="">kids trousers</a> */}
+                            </div>
+                          </div>
+                        </section>
+                      </div>
+                    </SearchResultsContainer>
+
                   </SearchBarContainer>
                 </form>
               </search>
 
               <NavIcon icon={UserIcon} aria-label="Login" type="button" />
               <NavIcon  as="a" icon={FavouritesIcon} aria-label="Favourites" hideOnMobile />
-              <a aria-label="Ulubione" href='' className='display--sm__off'></a>
               <NavIcon as="a" href="/basket" icon={BasketIcon} aria-label="Basket" />
-              <NavIcon icon={HamburgerMenuIcon} aria-label="Menu" type="button" />
-
+              <NavIcon icon={HamburgerMenuIcon} aria-label="Menu" type="button" hideOnDesktop />
 
             </UserToolsContainer>
           </SecondaryMenuContainer>
