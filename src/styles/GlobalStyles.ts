@@ -42,6 +42,11 @@ const GlobalStyles = createGlobalStyle`
     text-decoration: none;
     color: inherit;
   }
+
+  p {
+    font-size: 1.25rem;
+    color: var(--grey-secondary);
+  }
 `;
 
 export default GlobalStyles;

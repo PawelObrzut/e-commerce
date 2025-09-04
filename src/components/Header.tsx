@@ -12,6 +12,8 @@ const HeaderWrapper = styled.div`
 `
 
 const Header = styled.header`
+  display: grid;
+  grid-template-columns: repeat(12,minmax(0,1fr));
   margin: 0 auto;
   align-items: center;
   max-width: 120rem;
@@ -40,6 +42,8 @@ const SearchBarContainer = styled.div`
   @media (min-width: 1200px) {
     grid-template-columns: 0 180px 0;
   }
+
+  
 `
 
 const SwooshContainer = styled.div`
@@ -54,23 +58,27 @@ const InputBarContainer = styled.div`
   margin: 0;
   padding: 0;
   border: 0;
+  z-index: 20;
 `
 
 const SearchInputContainer = styled.div`
   display: flex;
-  width: 180px;
+
   vertical-align: baseline;
   transition: width 400ms cubic-bezier(0.6, 0, 0.1, 1);
   border-radius: 2rem;
+
 
   &:has(input:hover) {
     background-color: var(--grey-light);
   }
 
   @media (min-width: 1200px) {
+    width: 180px;
     background-color: var(--grey-light-2);
-    transition: width 400ms cubic-bezier(0.6, 0, 0.1, 1);
   }
+
+  transition: width 400ms cubic-bezier(0.6, 0, 0.1, 1);
 `
 
 const SearchIconContainer = styled.div`
@@ -81,14 +89,15 @@ const SearchIconContainer = styled.div`
   z-index: 5;
 `
 
-const SearchInput = styled.input<{ $isOpen: boolean}>`
-  visibility: ${({ $isOpen }) => ( $isOpen ? "visible": "hidden")};
+const SearchInput = styled.input<{ $isOpen: boolean }>`
+  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
   border-radius: 2rem;
-  width: 0;
+  width: ${({ $isOpen }) => ($isOpen ? "100%" : 0)};
   padding: 0;
   cursor: text;
   font-size: 1rem;
   outline: none;
+
 
   &:hover {
     background-color: var(--grey-light);
@@ -103,23 +112,45 @@ const SearchInput = styled.input<{ $isOpen: boolean}>`
 `
 
 const CancelSearchContainer = styled.div<{ $isOpen: boolean }>`
-  opacity: ${({ $isOpen }) => ( $isOpen ? 1 : 0 )};
-  visibility: ${({ $isOpen }) => ( $isOpen ? "visible": "hidden")};
+  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
+  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
   height: 0;
+  z-index: 20;
+
+  height: auto;
+  width: auto;
 `
 
 const SearchResultsContainer = styled.div<{ $isOpen: boolean }>`
   position: absolute;
-  background-color: var(--white-primary);
-  opacity: ${({ $isOpen }) => ( $isOpen ? 1 : 0 )};
-  visibility: ${({ $isOpen }) => ( $isOpen ? "visible": "hidden")};
+  background-color: beige;
+  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
+  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
   transition: opacity 250ms cubic-bezier(0.6, 0, 0.1, 1);
   width: 100%;
   min-height: 80vh;
   top: 0;
   right: 0;
   z-index: 10;
+  
+`
+
+const SerchPopUpContainer = styled.div`
+  margin-top: 3rem;
   border: solid 1px red;
+`
+
+const PopularSerches = styled.section`
+  display: grid;
+  grid-template-columns: repeat(10,minmax(0,1fr));
+  background-color: azure;
+  min-height: 120px;
+`
+
+const SearchTrey = styled.div`
+  display: grid;
+  grid-column: 3/9;
+  column-gap: 12px;
 `
 
 const NavBar = () => {
@@ -128,7 +159,7 @@ const NavBar = () => {
   return (
     <HeaderWrapper>
       <nav aria-label='Navigation panel'>
-        <Header className='grid-container'>
+        <Header>
           <LogoContainer className='nav--grid__item'>
             <a href="">logo</a>
           </LogoContainer>
@@ -141,19 +172,21 @@ const NavBar = () => {
                 <form>
                   <SearchBarContainer>
                     <SwooshContainer></SwooshContainer>
-                    
+
                     <InputBarContainer>
+
                       <SearchInputContainer>
                         <SearchIconContainer>
-                          <NavIcon 
+                          <NavIcon
                             onClick={() => setSearchOpen(true)}
-                            icon={SearchIcon} 
-                            aria-label="Search" 
+                            icon={SearchIcon}
+                            aria-label="Search"
                             type="button" />
                         </SearchIconContainer>
 
-                        <SearchInput 
+                        <SearchInput
                           $isOpen={searchOpen}
+                          onFocus={() => setSearchOpen(true)}
                           type="search"
                           value=""
                           placeholder='Search...'
@@ -174,9 +207,9 @@ const NavBar = () => {
                     </CancelSearchContainer>
 
                     <SearchResultsContainer $isOpen={searchOpen} >
-                      <div>
-                        <section>
-                          <div>
+                      <SerchPopUpContainer>
+                        <PopularSerches aria-label='Popular Search Terms'>
+                          <SearchTrey>
                             <p>Popular search terms</p>
                             <div>
                               {/* <a href="">model x1</a>
@@ -184,9 +217,9 @@ const NavBar = () => {
                               <a href="">fashion in Stockholm</a>
                               <a href="">kids trousers</a> */}
                             </div>
-                          </div>
-                        </section>
-                      </div>
+                          </SearchTrey>
+                        </PopularSerches>
+                      </SerchPopUpContainer>
                     </SearchResultsContainer>
 
                   </SearchBarContainer>
@@ -194,7 +227,7 @@ const NavBar = () => {
               </search>
 
               <NavIcon icon={UserIcon} aria-label="Login" type="button" />
-              <NavIcon  as="a" icon={FavouritesIcon} aria-label="Favourites" hideOnMobile />
+              <NavIcon as="a" icon={FavouritesIcon} aria-label="Favourites" hideOnMobile />
               <NavIcon as="a" href="/basket" icon={BasketIcon} aria-label="Basket" />
               <NavIcon icon={HamburgerMenuIcon} aria-label="Menu" type="button" hideOnDesktop />
 

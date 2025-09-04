@@ -26,6 +26,11 @@ const VerticalLine = styled.div`
   margin: 12px;
 `
 
+const LiFlex = styled.li`
+  display: flex;
+  align-items: center;
+`
+
 const TopBar = () => {
   return (
     <TopBarConntainer>
@@ -33,12 +38,12 @@ const TopBar = () => {
       <GridItem>
         <nav aria-label="Login Nav Panel">
           <TopBarList className="desktop-list">
-            <li className='flex-container'>
+            <LiFlex>
               <a href="#">
                 <p role="presentation">Dołącz do nas</p>
               </a>
               <VerticalLine />
-            </li>
+            </LiFlex>
             <li>
               <a href="#">
                 <p role="presentation">Zaloguj się</p>

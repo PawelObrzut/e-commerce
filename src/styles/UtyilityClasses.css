@@ -1,13 +1,4 @@
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(12,minmax(0,1fr));
-}
 
-.flex-container {
-  display: flex;
-  align-items: center;
-}
-
-.float-right {
-  float: right;
+.m-top-48 {
+  margin-top: 48px;
 }
